@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 /** Admin Routes **/
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware('auth')->group(function () {
+    Route::middleware('isAdmin')->group(function () {
         Route::get('/dashboard', function () {
             return view('admin.dashboard');
         })->middleware('verified')->name('dashboard');

@@ -5,8 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
 {
@@ -25,13 +23,37 @@ class RoleSeeder extends Seeder
             ['email' => 'admin@admin.com'],
             [
                 'name' => 'Super Admin',
-                'password' => Hash::make('123456789'), // غيّرها في بيئة الإنتاج
+                'password' => bcrypt('123456789')
+            ]
+        );
+
+        $teacher = User::firstOrCreate(
+            ['email' => 'teacher@teacher.com'],
+            [
+                'name' => 'Teacher',
+                'password' => bcrypt('123456789')
+            ]
+        );
+
+        $student = User::firstOrCreate(
+            ['email' => 'student@student.com'],
+            [
+                'name' => 'Student',
+                'password' => bcrypt('123456789')
             ]
         );
 
         // إسناد الدور
         if (!$admin->hasRole('admin')) {
             $admin->assignRole($adminRole);
+        }
+
+        if (!$teacher->hasRole('teacher')) {
+            $teacher->assignRole($teacherRole);
+        }
+
+        if (!$student->hasRole('student')) {
+            $student->assignRole($studentRole);
         }
     }
 }
